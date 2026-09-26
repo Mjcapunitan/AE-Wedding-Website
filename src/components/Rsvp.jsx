@@ -316,7 +316,7 @@ export default function RSVP() {
           ref={deadlineRef}
           className="mt-8 text-base tracking-wide text-[#777777] sm:mt-10"
         >
-          We kindly ask that you RSVP using your unique code on or before{" "}
+          We kindly ask that you RSVP using your unique code on or before<br/>{" "}
           <span className="text-[#444444]">
             October 30, 2026
           </span>
