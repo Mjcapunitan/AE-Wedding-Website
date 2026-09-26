@@ -95,16 +95,18 @@ export default function OurStory() {
             {/* =========================
                 IMAGE
             ========================== */}
-            <div ref={imageWrapRef} className="relative h-[500px] self-center sm:h-[650px] lg:h-[650px]">
+            <div
+              ref={imageWrapRef}
+              className="relative h-[620px] self-center sm:h-[650px] lg:h-[650px]"
+            >
               <img
                 src={OurStoryImage}
                 alt="Our story"
                 className="h-full w-full object-cover object-[40%_center] sm:object-center"
               />
 
-              {/* Soft image overlay */}
-              <div className="absolute inset-0 bg-black/5" />
-            </div>
+  <div className="absolute inset-0 bg-black/5" />
+</div>
 
             {/* =========================
                 STORY CONTENT

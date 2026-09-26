@@ -336,7 +336,7 @@ export default function RSVP() {
           ref={deadlineRef}
           className="mt-8 text-base tracking-wide text-[#777777] sm:mt-10"
         >
-          Kindly reply by{" "}
+          Kindly reply on or before{" "}
           <span className="text-[#444444]">
             October 30, 2026
           </span>

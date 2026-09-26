@@ -20,6 +20,52 @@ const REACHED = '#202020';
 
 const q = (root, selector) => gsap.utils.toArray(selector, root);
 
+/* ---------- Splits a heading into per-letter spans for stagger animation ---------- */
+function SplitLetters({ text }) {
+  const words = text.split(' ');
+
+  return (
+    <>
+      <span aria-hidden="true">
+        {words.map((word, wi) => (
+          <span key={wi} className="inline-block whitespace-nowrap">
+            {word.split('').map((char, ci) => (
+              <span key={ci} className="letter inline-block will-change-transform">
+                {char}
+              </span>
+            ))}
+            {wi < words.length - 1 && '\u00A0'}
+          </span>
+        ))}
+      </span>
+      <span className="sr-only">{text}</span>
+    </>
+  );
+}
+
+/* ---------- Title: letters fade/rise in once the heading scrolls into view ---------- */
+function animateTitle(titleEl) {
+  if (!titleEl) return;
+  const letters = titleEl.querySelectorAll('.letter');
+  if (!letters.length) return;
+
+  gsap.set(letters, { opacity: 0, y: 10 });
+
+  gsap.to(letters, {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    stagger: 0.03,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: titleEl,
+      start: 'top 85%',
+      toggleActions: 'play none none none',
+      once: true,
+    },
+  });
+}
+
 /* ---------- Mobile: vertical line, draws itself as you scroll down the page ---------- */
 function animateMobile(root) {
   const fill = root.querySelector('.line-fill');
@@ -117,7 +163,7 @@ function animateMobile(root) {
   });
 }
 
-/* ---------- Desktop: horizontal line, section pins while the line draws across ---------- */
+/* ---------- Desktop: horizontal line, plays on its own once the section scrolls into view ---------- */
 function animateDesktop(root) {
   const fill = root.querySelector('.line-fill');
   const items = q(root, '.event-item');
@@ -126,29 +172,30 @@ function animateDesktop(root) {
   gsap.set(fill, { width: 0 });
   gsap.set(q(root, '.event-anim'), { autoAlpha: 0, y: 20 });
 
+  // Per-event pacing (seconds), independent of scroll distance/speed.
+  const STEP = 0.6;
+
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: root,
-      start: 'center center',
-      end: `+=${n * 200}`,
-      pin: true,
-      scrub: 0.6,
-      anticipatePin: 1,
+      start: 'top 70%', // fires once the section is mostly in view
+      toggleActions: 'play none none none',
+      once: true, // never re-triggers on scroll back up
     },
   });
 
-  tl.to(fill, { width: '100%', duration: n }, 0);
+  tl.to(fill, { width: '100%', duration: n * STEP }, 0);
 
   items.forEach((item, i) => {
     tl.to(
       item.querySelector('.event-dot'),
       { backgroundColor: REACHED, scale: 1.6, duration: 0.3, ease: 'back.out(3)' },
-      i + 0.5
+      i * STEP + STEP * 0.5
     ).to(
       q(item, '.event-anim'),
       { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
-      i + 0.55
+      i * STEP + STEP * 0.55
     );
   });
 }
@@ -156,6 +203,8 @@ function animateDesktop(root) {
 export default function ScheduleOfEvents() {
   const mobileRef = useRef(null);
   const desktopRef = useRef(null);
+  const mobileTitleRef = useRef(null);
+  const desktopTitleRef = useRef(null);
 
   const events = [
     {
@@ -225,14 +274,20 @@ export default function ScheduleOfEvents() {
         // Reduced motion: leave everything visible and static
         if (!motion) return;
 
-        if (mobile) animateMobile(mobileRef.current);
-        if (desktop) animateDesktop(desktopRef.current);
+        if (mobile) {
+          animateTitle(mobileTitleRef.current);
+          animateMobile(mobileRef.current);
+        }
+        if (desktop) {
+          animateTitle(desktopTitleRef.current);
+          animateDesktop(desktopRef.current);
+        }
       }
     );
 
 
     const timer = setTimeout(() => {
-      ScrollTrigger.sort(); // order triggers top-to-bottom so pin spacing is applied correctly
+      ScrollTrigger.sort(); // order triggers top-to-bottom
       ScrollTrigger.refresh();
     }, 150);
     const onLoad = () => ScrollTrigger.refresh();
@@ -246,12 +301,14 @@ export default function ScheduleOfEvents() {
   }, []);
 
   return (
-    <div id="schedule" className="SchedOfEvents w-full h-full overflow-x-hidden">
-      <div className="container max-w-full h-full px-4 py-16 sm:px-6 md:py-18 md:px-10 2xl:px-18 bg-[#F8F8F6]">
+    <div id="schedule" className="SchedOfEvents w-full min-h-[90vh] overflow-x-hidden">
+      <div className="container max-w-full min-h-[100vh] flex flex-col justify-center px-4 py-16 sm:px-6 md:py-18 md:px-10 2xl:px-18 bg-[#F8F8F6]">
         <div className="wrapper w-full h-full">
           <div className="mobileVersionHeader lg:hidden flex flex-col gap-2">
             <p className="text-subtitle text-subtitle-color tracking-[.28em]">THE BIG DAY</p>
-            <p className="text-title text-title-color tracking-[.18em]">SCHEDULE OF EVENTS</p>
+            <p ref={mobileTitleRef} className="text-title text-title-color tracking-[.18em]">
+              <SplitLetters text="SCHEDULE OF EVENTS" />
+            </p>
             <div className="line w-9 h-[.5px] bg-[#BDBDBD] md:ml-1"></div>
           </div>
 
@@ -303,13 +360,15 @@ export default function ScheduleOfEvents() {
               <div className="line w-9 h-[.5px] bg-[#BDBDBD] mt-8 md:ml-1"></div>
           </div>
 
-          {/* Desktop version (this wrapper is what gets pinned) */}
+          {/* Desktop version */}
           <div ref={desktopRef} className="hidden w-full lg:block">
             <div className="desktopVersion flex w-full flex-col items-center">
 
               <div className="desktopVersionHeader flex flex-col items-center">
                 <p className="text-subtitle text-subtitle-color tracking-[.28em]">THE BIG DAY</p>
-                <p className="text-title text-title-color tracking-[.18em]">SCHEDULE OF EVENTS</p>
+                <p ref={desktopTitleRef} className="text-title text-title-color tracking-[.18em]">
+                  <SplitLetters text="SCHEDULE OF EVENTS" />
+                </p>
                 <hr className="my-3 w-6 border-t bg-black" />
               </div>
 

@@ -168,12 +168,11 @@ export default function VenueReception() {
 
                 <div className="flex flex-col gap-2">
                   <p className="m-0 font-sans text-xs font-medium uppercase leading-[1.6] tracking-[0.2em] text-[#555] md:text-sm">
-                    El Jardin de Zaida
+                    Kamagong Pavilion, El Jardin de Zaida
                   </p>
 
                   <p className="m-0 font-sans text-xs leading-[1.8] tracking-[0.1em] text-[#888] md:text-sm">
-                    Sitio Lagkit, San Juan,<br />
-                    Batangas, Philippines
+                    Abung, San Juan Batangas, Philippines
                   </p>
                 </div>
               </div>

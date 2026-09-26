@@ -321,9 +321,8 @@ export default function FAQ() {
             </p>
           </div>
 
-          {/* Column 2: FAQ List + Bottom Message */}
+          {/* Column 2: FAQ List */}
           <div className="lg:flex-1">
-            {/* FAQ List */}
             <div ref={faqListRef} className="w-full">
               {faqs.map((faq, index) => {
                 const isOpen = openIndex === index;
@@ -416,23 +415,23 @@ export default function FAQ() {
                 );
               })}
             </div>
-
-            {/* Bottom Message */}
-            <div ref={bottomRef} className="mt-12 text-center sm:mt-14">
-              <p className="text-sm leading-6 tracking-wide text-[#8A8A8A] sm:text-base">
-                If you have any other questions,
-                <br />
-                feel free to reach out to us.
-              </p>
-              <p className="mt-3 text-sm leading-6 tracking-wide text-[#A0A0A0] italic sm:text-base">
-                Kung mayroon pa kayong ibang katanungan,
-                <br />
-                huwag mag-atubiling makipag-ugnayan sa amin.
-              </p>
-
-              <div className="mx-auto mt-8 h-px w-9 bg-[#BDBDBD] lg:hidden" />
-            </div>
           </div>
+        </div>
+
+        {/* Bottom Message: full-width, centered under both columns */}
+        <div ref={bottomRef} className="mt-12 text-center sm:mt-14 lg:mt-16">
+          <p className="text-sm leading-6 tracking-wide text-[#8A8A8A] sm:text-base">
+            If you have any other questions,
+            <br />
+            feel free to reach out to us.
+          </p>
+          <p className="mt-3 text-sm leading-6 tracking-wide text-[#A0A0A0] italic sm:text-base">
+            Kung mayroon pa kayong ibang katanungan,
+            <br />
+            huwag mag-atubiling makipag-ugnayan sa amin.
+          </p>
+
+          <div className="mx-auto mt-8 h-px w-9 bg-[#BDBDBD] lg:hidden" />
         </div>
       </div>
     </section>
