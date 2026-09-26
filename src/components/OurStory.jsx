@@ -99,7 +99,7 @@ export default function OurStory() {
               <img
                 src={OurStoryImage}
                 alt="Our story"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-[40%_center] sm:object-center"
               />
 
               {/* Soft image overlay */}
