@@ -181,29 +181,31 @@ export default function Gift() {
             <div ref={noteParaRef} className="mt-5 text-sm font-semibold uppercase leading-[1.6] tracking-[0.08em] sm:text-base">
 
               <p>
-                Having you with us as we begin this new
+                Our hearts are so happy to share
                 <br />
-                chapter means more to us than we can
+                this special chapter with the people
                 <br />
-                put into words.
+                who mean the most to us.
               </p>
 
 
               <p className="mt-6">
-                We are grateful for the love, friendship,
+                Kindly enter the RSVP code personally 
                 <br />
-                and memories we have shared with you,
+                provided by the couple to confirm
                 <br />
-                and we would be honored to have you
-                <br />
-                witness one of the most meaningful days
-                <br />
-                of our lives.
+                your place in our celebration.
               </p>
 
 
               <p className="mt-6">
-                We cannot wait to celebrate with you!
+                Your presence will make our day
+                <br/>
+                even more meaningful, and we cannot
+                <br/>
+                wait to celebrate love, laughter,
+                <br/>
+                and the beginning of forever with you.
               </p>
 
             </div>

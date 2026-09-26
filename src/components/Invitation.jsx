@@ -35,10 +35,8 @@ function Invitation() {
     const [elementVisibility, setElementVisibility] = useState(0);
 
     const sectionRef = useRef(null);
-    const subtitleRef = useRef(null);
-    const lineTopRef = useRef(null);
-    const titleRef = useRef(null);
     const lineBottomRef = useRef(null);
+    const titleRef = useRef(null);
     const paraRef = useRef(null);
     const detailsRef = useRef(null);
     const ctaRef = useRef(null);
@@ -75,10 +73,10 @@ function Invitation() {
 
     useLayoutEffect(() => {
         gsap.set(
-            [subtitleRef.current, paraRef.current, detailsRef.current, ctaRef.current],
+            [paraRef.current, detailsRef.current, ctaRef.current],
             { opacity: 0, y: 20 }
         );
-        gsap.set([lineTopRef.current, lineBottomRef.current], { opacity: 0, scaleX: 0 });
+        gsap.set(lineBottomRef.current, { opacity: 0, scaleX: 0 });
         if (titleRef.current) {
             gsap.set(titleRef.current.querySelectorAll('.letter'), { opacity: 0, y: 10 });
         }
@@ -96,19 +94,17 @@ function Invitation() {
 
         if (prefersReducedMotion) {
             gsap.set(
-                [subtitleRef.current, paraRef.current, detailsRef.current, ctaRef.current],
+                [paraRef.current, detailsRef.current, ctaRef.current],
                 { opacity: 1, y: 0 }
             );
-            gsap.set([lineTopRef.current, lineBottomRef.current], { opacity: 1, scaleX: 1 });
+            gsap.set(lineBottomRef.current, { opacity: 1, scaleX: 1 });
             if (letters) gsap.set(letters, { opacity: 1, y: 0 });
             return;
         }
 
         const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
-        tl.to(subtitleRef.current, { opacity: 1, y: 0, duration: 1.1 })
-            .to(lineTopRef.current, { opacity: 1, scaleX: 1, duration: 0.9 }, '-=0.65')
-            .to(letters, { opacity: 1, y: 0, duration: 0.8, stagger: 0.045 }, '-=0.5')
+        tl.to(letters, { opacity: 1, y: 0, duration: 0.8, stagger: 0.045 })
             .to(lineBottomRef.current, { opacity: 1, scaleX: 1, duration: 0.8 }, '-=0.4')
             .to(paraRef.current, { opacity: 1, y: 0, duration: 1.1 }, '-=0.5')
             .to(detailsRef.current, { opacity: 1, y: 0, duration: 1.2 }, '-=0.6')
@@ -137,10 +133,6 @@ function Invitation() {
                         <div className="description flex flex-col my-auto md:col-span-3 md:h-full md:justify-between">
 
                             <div className="details-a flex flex-col items-center mx-auto gap-12 mb-16 md:h-full md:justify-between md:items-start md:mx-0">
-                                <p ref={subtitleRef} className="uppercase text-subtitle tracking-[0.28em] text-subtitle-color uppercase">You are invited</p>
-
-                                <div ref={lineTopRef} className="line hidden w-9 h-[.5px] bg-[#BDBDBD] md:block md:ml-1"></div>
-
                                 <h2
                                     ref={titleRef}
                                     className="uppercase text-center text-title max-w-95 text-title-color tracking-[0.18em] md:text-start lg:max-w-2/3"
@@ -173,7 +165,7 @@ function Invitation() {
                                     <div className="day-time flex-1 flex flex-col gap-3 justify-start items-center lg:justify-center lg:flex-row lg:gap-0">
                                         <img src={ClockIcon} alt="Clock" className="hidden md:block w-5" /> 
                                         <div className="day-and-time md:ml-[calc(20%-26px)] md:pl-2">
-                                            <p className="uppercase text-details max-w-34 text-center leading-5 h-fit lg:text-start">12:30 PM</p>
+                                            <p className="uppercase text-details max-w-34 text-center leading-5 h-fit lg:text-start">12:00 PM</p>
                                             <p className="uppercase text-details max-w-34 text-center leading-5 h-fit md:hidden">Saturday</p>
                                         </div>
                                     </div>

@@ -22,7 +22,6 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
 export default function RSVP() {
   const sectionRef = useRef(null);
 
-  const headingRef = useRef(null);
   const titleRef = useRef(null);
   const messageRef = useRef(null);
   const deadlineRef = useRef(null);
@@ -49,7 +48,6 @@ export default function RSVP() {
       // Initial animation state
       gsap.set(
         [
-          headingRef.current,
           titleRef.current,
           messageRef.current,
           deadlineRef.current,
@@ -77,22 +75,12 @@ export default function RSVP() {
         },
       });
 
-      tl.to(headingRef.current, {
+      tl.to(titleRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.9,
+        duration: 1,
         ease: "power2.out",
       })
-        .to(
-          titleRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power2.out",
-          },
-          "-=0.6"
-        )
         .to(
           messageRef.current,
           {
@@ -101,7 +89,7 @@ export default function RSVP() {
             duration: 0.9,
             ease: "power2.out",
           },
-          "-=0.55"
+          "-=0.6"
         )
         .to(
           deadlineRef.current,
@@ -305,18 +293,10 @@ export default function RSVP() {
       className="w-full px-6 py-16 sm:px-8 sm:py-20"
     >
       <div className="mx-auto flex w-full max-w-[620px] flex-col items-center text-center">
-        {/* KINDLY */}
-        <p
-          ref={headingRef}
-          className="uppercase tracking-[0.28em] text-subtitle text-subtitle-color"
-        >
-          Kindly
-        </p>
-
         {/* RSVP */}
         <h2
           ref={titleRef}
-          className="mt-2 uppercase tracking-[0.18em] text-title text-title-color"
+          className="uppercase tracking-[0.18em] text-title text-title-color"
         >
           RSVP
         </h2>
@@ -336,7 +316,7 @@ export default function RSVP() {
           ref={deadlineRef}
           className="mt-8 text-base tracking-wide text-[#777777] sm:mt-10"
         >
-          Kindly reply on or before{" "}
+          We kindly ask that you RSVP using your unique code on or before{" "}
           <span className="text-[#444444]">
             October 30, 2026
           </span>
@@ -505,7 +485,6 @@ export default function RSVP() {
 
               {step === "attend" && (
                 <>
-                  {/* STEP 1: CAN THEY ATTEND? Neither Yes nor No saves yet — both go to a confirm step */}
                   <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
                     {guest.rsvpDetails}
                   </p>
@@ -566,7 +545,6 @@ export default function RSVP() {
 
               {step === "dietary" && (
                 <>
-                  {/* STEP 2 (Yes only): DIETARY RESTRICTIONS, then goes to a confirm step */}
                   <p className="mt-6 text-sm leading-6 tracking-wide text-[#444444]">
                     If you have any dietary restrictions or allergies, please inform us
                     through this RSVP.
@@ -631,7 +609,6 @@ export default function RSVP() {
 
               {step === "confirm" && (
                 <>
-                  {/* CONFIRM STEP (Yes path): last chance to double check — answers can't be changed after this */}
                   <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
                     Are you sure you want to submit this response?
                   </p>
@@ -697,7 +674,6 @@ export default function RSVP() {
 
               {step === "confirmNo" && (
                 <>
-                  {/* CONFIRM STEP (No path): last chance to double check — answers can't be changed after this */}
                   <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
                     Are you sure you won’t be able to attend?
                   </p>
@@ -763,7 +739,6 @@ export default function RSVP() {
 
               {step === "done" && (
                 <>
-                  {/* FINAL MESSAGE (shown after the response is saved) */}
                   <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
                     {choice === "yes"
                       ? "Thank you for confirming and see you on Jan 15, 2027!"
@@ -794,7 +769,6 @@ export default function RSVP() {
 
               {step === "locked" && (
                 <>
-                  {/* ALREADY RESPONDED: locked, no Yes/No options shown */}
                   <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
                     You have already submitted your response. Please contact
                     the groom or the bride for changes.
